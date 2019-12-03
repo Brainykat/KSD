@@ -1,0 +1,117 @@
+﻿@page "/AddStudent"
+@inject HttpClient Http
+@inject NavigationManager UriHelper
+@inject IKsdService service
+@inject IJSRuntime JSRuntime
+<div class="container-fluid">
+    <!-- SELECT2 EXAMPLE -->
+    <div class="card card-warning card-outline">
+        <div class="card-header">
+            <h3 class="card-title">Add Student</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <EditForm Model="@item" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <div class="text-danger">
+                <ValidationSummary />
+            </div>
+            <div class="card-body">
+                @if (ShowErrors)
+                {
+                    foreach (var error in Errors)
+                    {
+                        <span class="text-danger"> @error !</span>
+                    }
+                }
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Sur Name</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.Sur" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.Sur)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">First Name</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.First" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.First)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Middle Name</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.Middle" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.Middle)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Admission</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.AdmissionNumber" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.AdmissionNumber)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Grade</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.Grade" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.Grade)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/">Back to list</a>
+                <button type="submit" class="btn btn-primary float-right">Submit</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+@code {
+
+    public StudentDto item = new StudentDto();
+    public bool ShowErrors;
+    public List<string> Errors = new List<string>();
+    public async Task HandleValidSubmit()
+    {
+        await JSRuntime.InvokeAsync<bool>("LoadingSpinnerShow");
+        var result = await service.AddStudent(item);
+        if (result.Status)
+        {
+            await JSRuntime.InvokeAsync<bool>("LoadingSpinnerHide");
+            await JSRuntime.InvokeAsync<bool>("SucessToast", "Success");
+            UriHelper.NavigateTo("/");
+        }
+        else
+        {
+            Errors = result.Messages;
+            ShowErrors = true;
+            await JSRuntime.InvokeAsync<bool>("LoadingSpinnerHide");
+            await JSRuntime.InvokeAsync<bool>("ErrorToast", "Error(s) shown ocurred");
+        }
+    }
+
+}
+
+
+
+

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\KSD.ServiceContracts\KSD.ServiceContracts.csproj" />
+    <ProjectReference Include="..\..\Data\KSD.Data\KSD.Data.csproj" />
+    <ProjectReference Include="..\..\UI\KSD.UI\Shared\KSD.UI.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

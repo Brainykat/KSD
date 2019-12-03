@@ -1,0 +1,70 @@
+﻿@page "/"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        Students
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (routes == null)
+                    {
+                        <p><em>Loading...</em></p>
+                    }
+                    else
+                    {
+                        <p><a href="AddStudent">Add New Student </a></p>
+                        <table id="example1" class="table table-hover table-sm table-responsive-lg">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Reg No</th>
+                                    <th>Grade</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in routes)
+                                {
+                                    <tr>
+                                        <td>@num</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.AdmissionNumber.ToString()</td>
+                                        <td>@item.Grade</td>
+                                        <td>@item.DateCreated.ToString("dd-MM-yy")</td>
+                                        <td><a class="fa fa-eye" data-toggle="tooltip" title="Details" href="StudentDetails/@item.Id"></a></td>
+                                    </tr>
+                                    num++;
+                                }
+                            </tbody>
+                        </table>
+
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    List<StudentView> routes;
+    public int num = 1;
+    protected override async Task OnInitializedAsync()
+    {
+        routes = await Http.GetJsonAsync<List<StudentView>>("api/ksd");
+        await JSRuntime.InvokeAsync<object>("MyDataTable", "#example1");
+    }
+
+}
+
+
+
+
+

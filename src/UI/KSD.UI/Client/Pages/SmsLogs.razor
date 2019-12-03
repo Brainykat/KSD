@@ -1,0 +1,69 @@
+﻿
+@page "/SmsLogs"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        SMS Logs
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (routes == null)
+                    {
+                        <p><em>Loading...</em></p>
+                    }
+                    else
+                    {
+                        <table id="example1" class="table table-hover table-sm table-responsive-lg">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Number</th>
+                                    <th>Message</th>
+                                    <th>Is Sent?</th>
+                                    <th>Is Delivered?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in routes)
+                                {
+                                    <tr>
+                                        <td>@num</td>
+                                        <td>@item.msisdn</td>
+                                        <td>@item.Message</td>
+                                        <td>@item.IsSent</td>
+                                        <td>@item.IsDelivered</td>
+                                    </tr>
+                                    num++;
+                                }
+                            </tbody>
+                        </table>
+
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    List<SMSLogView> routes;
+    public int num = 1;
+    protected override async Task OnInitializedAsync()
+    {
+        routes = await Http.GetJsonAsync<List<SMSLogView>>("api/ksd/smsLogs");
+        await JSRuntime.InvokeAsync<object>("MyDataTable", "#example1");
+    }
+
+}
+
+
+
+
+
+
