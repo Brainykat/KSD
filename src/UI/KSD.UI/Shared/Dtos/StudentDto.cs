@@ -22,5 +22,8 @@ namespace KSD.UI.Shared.Dtos
         [Required]
         [MaxLength(12)]
         public string Grade { get; set; }
+        [Required]
+        [MaxLength(10)]
+        public string CardNo { get; set; }
     }
 }

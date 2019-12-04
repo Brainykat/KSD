@@ -13,6 +13,7 @@ namespace KSD.ServiceContracts
         Task<Response> AddParent(Guid id, ParentDto dto);
         Task<Response> AddStudent(StudentDto dto);
         Task<Student> GetStudentDetails(Guid id);
+        Task<Student> GetStudentDetails(string cardNo);
         Task<Student> GetStudentFullDetails(Guid id);
         Task<List<Student>> GetStudents();
         Task<List<SMSLog>> GetMSLogs();

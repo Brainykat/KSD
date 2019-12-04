@@ -11,7 +11,9 @@ namespace KSD.UI.Shared.ViewModels
         public string AdmissionNumber { get; set; }
         public string Grade { get; set; }
         public DateTime DateCreated { get; set; }
+        public string CardNo { get; set; }
         public List<ParentView> Parents { get; set; }
         public List<MealView> Meals { get; set; }
+
     }
 }

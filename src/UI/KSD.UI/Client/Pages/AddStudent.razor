@@ -77,6 +77,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Card No</label>
+                            <InputText type="text" Class="form-control" @bind-Value="@item.CardNo" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => item.CardNo)" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">

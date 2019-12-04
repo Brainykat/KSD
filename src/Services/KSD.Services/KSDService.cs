@@ -25,10 +25,11 @@ namespace KSD.Services
         public async Task<List<Student>> GetStudents() => await _context.Students.AsNoTracking().ToListAsync();
         public async Task<Student> GetStudentFullDetails(Guid id) => await _context.Students.Include(p => p.Parents).Include(m => m.Meals).FirstOrDefaultAsync(i => i.Id == id);
         public async Task<Student> GetStudentDetails(Guid id) => await _context.Students.FirstOrDefaultAsync(i => i.Id == id);
+        public async Task<Student> GetStudentDetails(string cardNo) => await _context.Students.FirstOrDefaultAsync(i => i.CardNo == cardNo);
         public async Task<List<SMSLog>> GetMSLogs() => await _context.SMSLogs.AsNoTracking().ToListAsync();
         public async Task<Response> AddStudent(StudentDto dto)
         {
-            var st = Student.Create(Name.Create(dto.Sur, dto.First, dto.Middle), dto.AdmissionNumber, dto.Grade);
+            var st = Student.Create(Name.Create(dto.Sur, dto.First, dto.Middle), dto.AdmissionNumber, dto.Grade, dto.CardNo);
             _context.Students.Add(st);
             await _context.SaveChangesAsync();
             return new Response();

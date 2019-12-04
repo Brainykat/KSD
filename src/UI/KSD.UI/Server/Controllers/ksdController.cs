@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KSD.ServiceContracts;
+﻿using KSD.ServiceContracts;
 using KSD.UI.Shared.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace KSD.UI.Server.Controllers
 {
@@ -27,6 +24,11 @@ namespace KSD.UI.Server.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _service.GetStudentDetails(id));
+        }
+        [HttpGet("Card/{cardNo}")]
+        public async Task<IActionResult> Get(string cardNo)
+        {
+            return Ok(await _service.GetStudentDetails(cardNo));
         }
         [HttpGet("smsLogs")]
         public async Task<IActionResult> GetSmsLogs()

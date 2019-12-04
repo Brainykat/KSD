@@ -8,13 +8,13 @@ namespace Students.Domain.Entities
 {
     public class Student
     {
-        public static Student Create(Name name, string admissionNumber, string grade) =>
-            new Student(name, admissionNumber, grade);
+        public static Student Create(Name name, string admissionNumber, string grade, string cardNo) =>
+            new Student(name, admissionNumber, grade, cardNo);
         public void AddParent(Name name, string phone, string phone2, string physicalLocation, string email) =>
             Parents.Add(Parent.Create(this.Id, name, phone, phone2, physicalLocation,email));
         public void AddMeal(MealType mealType, long pOSId) =>
             Meals.Add(Meal.Create(this.Id, mealType, pOSId));
-        private Student(Name name, string admissionNumber, string grade)
+        private Student(Name name, string admissionNumber, string grade, string cardNo)
         {
             Id = Guid.NewGuid();
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -23,6 +23,7 @@ namespace Students.Domain.Entities
             Parents = new List<Parent>();
             Meals = new List<Meal>();
             DateCreated = DateTime.UtcNow;
+            CardNo = cardNo;
         }
         private Student() { }
         public Guid Id { get; set; }
@@ -30,6 +31,7 @@ namespace Students.Domain.Entities
         public string AdmissionNumber { get; set; }
         public string Grade { get; set; }
         public DateTime DateCreated { get; set; }
+        public string CardNo { get; set; }
         public List<Parent> Parents { get; set; }
         public List<Meal> Meals { get; set; }
     }
